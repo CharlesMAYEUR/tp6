@@ -1,5 +1,5 @@
-#include <stdio.h>   /* pour les entrÈes-sorties */
-#include <string.h>  /* pour les manipulations de chaÓnes de caractËres */
+#include <stdio.h>   /* pour les entr√©es-sorties */
+#include <string.h>  /* pour les manipulations de cha√Ænes de caract√®res */
 #include <conio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -9,8 +9,8 @@
 #define VERSION 21.0
 
 /**************************************************************************/
-/* ComplÈter votre nom ici                                                */
-/*   Nom :       CROPPI            PrÈnom :         JULIEN                */
+/* Compl√©ter votre nom ici                                                */
+/*   Nom :       CROPPI            Pr√©nom :         JULIEN                */
 /**************************************************************************/
 
 extern bool modif;
@@ -18,25 +18,27 @@ extern bool modif;
 
 
 /// <summary>
-/// Ajout d'un contact dans le rÈpertoire stockÈ en mÈmoire
+/// Ajout d'un contact dans le r√©pertoire stock√© en m√©moire
 /// </summary>
 /// <param name="dir">: Ref : le repertoire</param>
 /// <param name="rec">: Value : le contact</param>
-/// <returns>ERROR si Èchec ou OK si ajout rÈalisÈ</returns>
+/// <returns>ERROR si √©chec ou OK si ajout r√©alis√©</returns>
 int ajouter_un_contact_dans_rep(Directory *dir, Record rec)
 {
 #ifdef IMPL_TAB
 	// ajouter code ici pour tableau
 
 	// Debut ajout code
-
+	//Si on n'atteinds pas le max d'√©l√©ments autoris√©, on ajoute l'enregistrement
 	if (dir->elts_count < MAX_RECORDS) {
 		dir->tab[dir->elts_count] = rec;
 		dir->elts_count++;
 	}
+	//Sinon, on retourne une erreur
 	else {
 		return(ERROR);
 	}
+	//On a bien modifi√© le tableau
 	modif = true;
 
 
@@ -66,17 +68,19 @@ int ajouter_un_contact_dans_rep(Directory *dir, Record rec)
 
 			// ajouter code ici pour Liste
 			// Debut ajout code
+			//Si le point d'insertion est valide, on ajoute l'√©l√©ment √† cette position, le nombre d'√©l√©ments est incr√©ment√© et on retourne OK
 			if (stcmp(rec.nom, GetElementAt(dir->list, pos, rec)) < 0) {
 				InsertElementAt(dir->list, pos, rec);
 				dir->elts_count += 1;
 				modif = true;
 				return(OK);
 			}
+			//Sinon on incr√©mente la position
 			pos += 1;
 			// fin ajout de code
 
 		}
-		// c'est le plus grand, on le place ‡ la fin
+		// c'est le plus grand, on le place √† la fin
 		if (!inserted) {
 
 			InsertElementAt(dir->list, dir->list->size, rec);
@@ -96,8 +100,8 @@ int ajouter_un_contact_dans_rep(Directory *dir, Record rec)
 
 } /* fin ajout */
   /**********************************************************************/
-  /* supprime du rÈpertoire l'enregistrement dont l'indice est donnÈ en */
-  /*   paramËtre       et place modif = true                            */
+  /* supprime du r√©pertoire l'enregistrement dont l'indice est donn√© en */
+  /*   param√®tre       et place modif = true                            */
   /**********************************************************************/
 #ifdef IMPL_TAB
 void supprimer_un_contact_dans_rep(Directory *dir, int index) {
@@ -107,7 +111,7 @@ void supprimer_un_contact_dans_rep(Directory *dir, int index) {
 	{
 	// ajouter code ici pour tableau						
 	// Debut ajout code
-		
+		//On remplace chaque √©l√©ment √† partir de i par le suivant
 		for (int i = index; i < dir->elts_count - 1; i++) {
 			dir->tab[i] = dir->tab[i + 1];
 		}
@@ -129,19 +133,20 @@ void supprimer_un_contact_dans_rep(Directory *dir, int index) {
   // ajouter code ici pour Liste
 
 	/// <summary>
-    /// supprime du rÈpertoire l'enregistrement contenu dans le maillon elem
-    /// et fixe modif ‡ vrai
+    /// supprime du r√©pertoire l'enregistrement contenu dans le maillon elem
+    /// et fixe modif √† vrai
 	/// 
 	/// </summary>
-	/// <param name="dir">: Ref vers un rÈpertoire</param>
-	/// <param name="elem">: Ref vers un maillon de liste chainÈe</param>
-	/// <returns>0 si pas de suppression effectuÈe ou 1 si une suppression rÈalisÈe</returns>
+	/// <param name="dir">: Ref vers un r√©pertoire</param>
+	/// <param name="elem">: Ref vers un maillon de liste chain√©e</param>
+	/// <returns>0 si pas de suppression effectu√©e ou 1 si une suppression r√©alis√©e</returns>
 int supprimer_un_contact_dans_rep_liste(Directory* dir, SingleLinkedListElem* elem) {
 
-	// Ajouter code ici pour implÈmentation liste
-	// DÈbut ajout Code ici
-
+	// Ajouter code ici pour impl√©mentation liste
+	// D√©but ajout Code ici
+	//On supprime l'√©l√©ment
 	int tar = DeleteLinkedListElem(dir->list, elem);
+	//S'il a √©t√© supprim√© on d√©cr√©mente le nombre d'√©l√©ment
 	if (tar == 1) {
 		dir->elts_count--;
 		modif = true;
@@ -157,15 +162,15 @@ int supprimer_un_contact_dans_rep_liste(Directory* dir, SingleLinkedListElem* el
 
 /*********************************************************************/
 /// <summary>
-/// Affichage d'un enregistrement sur une ligne ‡ l'Ècran
+/// Affichage d'un enregistrement sur une ligne √† l'√©cran
 /// </summary>
-/// <param name="rec"> : Contact ‡ afficher</param>
+/// <param name="rec"> : Contact √† afficher</param>
 void affichage_enreg(Record enr)
 {
 	// ex Dupont, Jean                 0320304050
-	// l'espacement est obtenu avec des caractËres de tabulation
-	// DÈbut ajout Code ici
-
+	// l'espacement est obtenu avec des caract√®res de tabulation
+	// D√©but ajout Code ici
+	//On affiche l'enregistrement et toutes ses caract√©ristiques
 	printf("%s, %s     %s", enr.nom, enr.prenom, enr.tel);
 
 
@@ -176,16 +181,16 @@ void affichage_enreg(Record enr)
 /// Affichage d'un enregistrement avec alignement des mots
 /// lors d'un affichage sous la forme d'une liste
 /// </summary>
-/// <param name="rec"> : Contact ‡ afficher</param>
+/// <param name="rec"> : Contact √† afficher</param>
 void affichage_enreg_frmt(Record enr)
 {
-	// Le nom est alignÈ sur 30 caractËres
-	// le prÈnom est alignÈ sur 25 caractËres
-	// le no de tÈlÈphone est alignÈ sur 15 caractËres
+	// Le nom est align√© sur 30 caract√®res
+	// le pr√©nom est align√© sur 25 caract√®res
+	// le no de t√©l√©phone est align√© sur 15 caract√®res
 	// ex | Dupont                |Jean                  |0320304050      
 	// 
-	// DÈbut ajout Code ici
-
+	// D√©but ajout Code ici
+	//On affiche l'enregistrement avec toutes ses caract√©ristiques
 	printf("%20s| %20s| %20s|\n", enr.nom, enr.prenom, enr.tel);
 
 
@@ -199,21 +204,23 @@ void affichage_enreg_frmt(Record enr)
 /// </summary>
 /// <param name="enr1">: Contact 1</param>
 /// <param name="enr2">: Contact 2</param>
-/// <returns>true si enr1 est aprËs enr2</returns>
+/// <returns>true si enr1 est apr√®s enr2</returns>
 bool est_sup(Record enr1, Record enr2)
 {
 
-	// Utiliser la fonction _strcmpi (string.h) pour comparer des chaines de caractËres
+	// Utiliser la fonction _strcmpi (string.h) pour comparer des chaines de caract√®res
 	// 
-	// DÈbut ajout Code ici
-
-	if (_strcmpi(enr1.nom, enr2.nom) == 0 && _strcmpi(enr1.prenom, enr2.prenom) > 0) {  //Si noms Ègaux et prenom mal rangÈs
-	  //Si prenoms mal rangÈs
+	// D√©but ajout Code ici
+	//Si noms √©gaux et prenom mal rang√©s
+	if (_strcmpi(enr1.nom, enr2.nom) == 0 && _strcmpi(enr1.prenom, enr2.prenom) > 0) { 
+	  //Si prenoms mal rang√©s
 		return(true);
 	}
-	else if (_strcmpi(enr1.nom, enr2.nom) > 0) { //Si noms mal rangÈs
+	//Si noms mal rang√©s
+	else if (_strcmpi(enr1.nom, enr2.nom) > 0) { 
 		return(true);
 	}
+	//Dans les autres cas
 	else {   //Sinon
 		return(false);
 	}
@@ -235,12 +242,14 @@ void trier(Directory *dir)
 #ifdef IMPL_TAB
 	// ajouter code ici pour tableau
 	// Debut ajout code
-
+	//S'il y a deux √©l√©ments ou plus dans le tableau, on commence le tri
 	if (dir->elts_count >= 2) {
 		bool fin = false;
 		Record tmp;
+		//Tant que le tableau n'est pas rang√©
 		while (fin == false) {
 			fin = true;
+			//On parcourt chaque √©l√©ment et lorsqu'ils ne sont pas dans l'ordre deux √† deux, on les range et on recommence
 			for (int i = 0; i < dir->elts_count - 1; i++) {
 				if (est_sup(dir->tab[i], dir->tab[i + 1])) {
 					tmp = dir->tab[i];
@@ -251,6 +260,7 @@ void trier(Directory *dir)
 			}
 		}
 	}
+	//Sinon il n'y a pas besoin de ranger
 	else {
 		return;
 	}
@@ -262,8 +272,8 @@ void trier(Directory *dir)
 #else
 #ifdef IMPL_LIST
 	// ajouter code ici pour Liste
-	// rien ‡ faire !
-	// la liste est toujours triÈe
+	// rien √† faire !
+	// la liste est toujours tri√©e
 #endif
 #endif
 
@@ -273,15 +283,15 @@ void trier(Directory *dir)
 } /* fin trier */
 
   /**********************************************************************/
-  /* recherche dans le rÈpertoire d'un enregistrement correspondant au  */
-  /*   nom ‡ partir de l'indice ind                                     */
-  /*   retourne l'indice de l'enregistrement correspondant au critËre ou*/
-  /*   un entier nÈgatif si la recherche est nÈgative				    */
+  /* recherche dans le r√©pertoire d'un enregistrement correspondant au  */
+  /*   nom √† partir de l'indice ind                                     */
+  /*   retourne l'indice de l'enregistrement correspondant au crit√®re ou*/
+  /*   un entier n√©gatif si la recherche est n√©gative				    */
   /**********************************************************************/
 
 int rechercher_nom(Directory *dir, char nom[], int ind)
 {
-	int i = ind;		    /* position (indice) de dÈbut de recherche dans tableau/liste dir */
+	int i = ind;		    /* position (indice) de d√©but de recherche dans tableau/liste dir */
 	
 
 	char tmp_nom[MAX_LASTNAME];	/* 2 variables temporaires dans lesquelles */
@@ -310,22 +320,25 @@ int rechercher_nom(Directory *dir, char nom[], int ind)
 #ifdef IMPL_LIST
 		// ajouter code ici pour Liste
 		// Debut ajout code
-	
+	//On r√©cup√®re l'indice de fin et le nom
 	ind_fin = dir->elts_count - 1;
 	strncpy_s(tmp_nom, _countof(tmp_nom), nom, _TRUNCATE);
 	_strupr_s(tmp_nom, _countof(tmp_nom));
-
+	//Tant qu'on ne l'a pas trouv√© on continue
 	while ((i <= ind_fin) && (!trouve)) {
 		strncpy_s(tmp_nom2, _countof(tmp_nom2), GetElementAt(dir->list, i), _TRUNCATE);
 		_strupr_s(tmp_nom2, _countof(tmp_nom2));
+		//Si on l'a trouv√©, on retourne la position
 		if (strcmp(tmp_nom, tmp_nom2) == 0) {
 			trouve = true;
 			return(i);
 		}
+		//Sinon on incr√©mente la position de recherche
 		else {
 			i++;
 		}
 	}
+	//Si on ne l'a pas trouv√© on retourne -1
 	return (-1);
 
 
@@ -338,17 +351,19 @@ int rechercher_nom(Directory *dir, char nom[], int ind)
 } /* fin rechercher_nom */
 
   /*********************************************************************/
-  /* Supprimer tous les caracteres non numÈriques de la chaines        */
+  /* Supprimer tous les caracteres non num√©riques de la chaines        */
   /*********************************************************************/
 void compact(char *s)
 {
 // Debut ajout code
-
+	//Pour chaque caract√®re de la chaine
 	for (int i = 0; i < strlen(s) - 1; i++) {
+		//Si ce n'est pas un charact√®re, on remplace tous les symboles par le suivant
 		if ((int)s[i] > 57 || (int)s[i] < 48) {
 			for (int j = i; j < strlen(s) - 1; j++) {
 				s[j] = s[j + 1];
 			}
+			//Le dernier est le caract√®re de fin de chaine
 			s[strlen(s) - 1] = '\0';
 		}
 	}
@@ -360,9 +375,9 @@ void compact(char *s)
 }
 
 /**********************************************************************/
-/* sauvegarde le rÈpertoire dans le fichier dont le nom est passÈ en  */
+/* sauvegarde le r√©pertoire dans le fichier dont le nom est pass√© en  */
 /* argument                                                           */
-/* retourne OK si la sauvegarde a fonctionnÈ ou ERROR sinon           */
+/* retourne OK si la sauvegarde a fonctionn√© ou ERROR sinon           */
 /**********************************************************************/
 int sauvegarder(Directory *dir, char file_name[])
 {
@@ -370,8 +385,9 @@ int sauvegarder(Directory *dir, char file_name[])
 #ifdef IMPL_TAB
 	// ajouter code ici pour tableau
 	// Debut ajout code
-
+	//On ouvre le fichier
 	fopen_s(&fic_rep, file_name, "w");
+	//Pour chaque √©l√©ment du tableau, on ajoute le nom le pr√©nom et le telephone au fichier
 	for (int i = 0; i < dir->elts_count; i++) {
 		fputs(dir->tab[i].nom, fic_rep);
 		fputs(";", fic_rep);
@@ -391,8 +407,9 @@ int sauvegarder(Directory *dir, char file_name[])
 	// ajouter code ici pour Liste
 
 	// Debut ajout code
-
+	//On ouvre le fichier
 	fopen_s(&fic_rep, nom_fichier, "w");
+	//Pour chaque √©l√©ment de la liste, on ajoute le nom, le premon et le telephone au fichier
 	for (int i = 0; i < dir->list->size; i++) {
 		fputs(GetElementAt(dir->list, i)->pers.nom, fic_rep);
 		fputs(";", fic_rep);
@@ -414,9 +431,9 @@ int sauvegarder(Directory *dir, char file_name[])
 
 
   /**********************************************************************/
-  /*   charge dans le rÈpertoire le contenu du fichier dont le nom est  */
-  /*   passÈ en argument                                                */
-  /*   retourne OK si le chargement a fonctionnÈ et ERROR sinon         */
+  /*   charge dans le r√©pertoire le contenu du fichier dont le nom est  */
+  /*   pass√© en argument                                                */
+  /*   retourne OK si le chargement a fonctionn√© et ERROR sinon         */
   /**********************************************************************/
 
 int charger(Directory *dir, char nom_fichier[])
@@ -456,25 +473,29 @@ int charger(Directory *dir, char nom_fichier[])
 					{
 						idx++;
 						if (lire_champ_suivant(buffer, &idx, dir->tab[num_rec].tel, MAX_TEL, SEPARATOR) == OK)
-							num_rec++;		/* element ‡ priori correct, on le comptabilise */
+							num_rec++;		/* element √† priori correct, on le comptabilise */
 					}
 				}
 #else
 #ifdef IMPL_LIST
 				// ajouter code implemention liste
-				// **** dÈbut ajout ****
-
+				// **** d√©but ajout ****
+				//Si on peut lire le nom suivant
 				if (lire_champ_suivant(buffer, &idx, enr.nom, MAX_LASTNAME, SEPARATOR) == OK)
 				{
 					idx++;							/* on saute le separateur */
+					//Si on peut lire le pr√©nom suivant
 					if (lire_champ_suivant(buffer, &idx, enr.prenom, MAX_LASTNAME, SEPARATOR) == OK)
 					{
 						idx++;
+						//Si on peut lire le telephone suivant
 						if (lire_champ_suivant(buffer, &idx, enr.tel, MAX_TEL, SEPARATOR) == OK)
-							num_rec++;		/* element ‡ priori correct, on le comptabilise */
+							num_rec++;		/* element √† priori correct, on le comptabilise */
 					}
 				}
+				//On ajoute l'√©l√©ment 
 				InsertElementAt(dir->list, dir->list->size, enr);
+				//On incr√©mente le compteur
 				compteur++;
 
 
